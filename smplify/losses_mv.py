@@ -41,36 +41,6 @@ def body_fitting_loss(body_pose, betas, model_joints, camera_t,camera_center,
                         (joints_conf[int(batch_size/4):int(batch_size/2)] ** 2) * reprojection_error_1[int(batch_size/4):int(batch_size/2)].sum(dim=-1) +\
                         (joints_conf[int(batch_size/2):int(batch_size*3/4)] ** 2) * reprojection_error_1[int(batch_size/2):int(batch_size*3/4)].sum(dim=-1) +\
                         (joints_conf[int(batch_size*3/4):] ** 2) * reprojection_error_1[int(batch_size*3/4):].sum(dim=-1)
-    #rotation = camera_rot[0]
-    #print(camera_rot[1])
-    #input()
-    #camera_rot_mat0 = batch_rodrigues(camera_rot[0])
-    #print(model_joints)
-    #projected_joints_0 = perspective_projection(model_joints[:int(batch_size/4)], rotation, camera_t[:int(batch_size/4)],
-    #                                          focal_length, camera_center[:int(batch_size/4)])
-    #rotation = camera_rot[1]
-    #camera_rot_mat1 = batch_rodrigues(camera_rot[1])
-    #projected_joints_1 = perspective_projection(model_joints[int(batch_size/4):int(batch_size/2)], rotation, camera_t[int(batch_size/4):int(batch_size/2)],
-    #                                          focal_length, camera_center[int(batch_size/4):int(batch_size/2)])
-
-    #rotation = camera_rot[2]
-    #camera_rot_mat2 = batch_rodrigues(camera_rot[2])
-    #projected_joints_2 = perspective_projection(model_joints[int(batch_size/2):int(batch_size*3/4)], rotation, camera_t[int(batch_size/2):int(batch_size*3/4)],
-    #                                          focal_length, camera_center[int(batch_size/2):int(batch_size*3/4)])
-    #rotation = camera_rot[3]
-    #camera_rot_mat3 = batch_rodrigues(camera_rot[3])
-    #projected_joints_3 = perspective_projection(model_joints[int(batch_size*3/4):], rotation, camera_t[int(batch_size*3/4):],
-    #                                          focal_length, camera_center[int(batch_size*3/4):])
-    # Weighted robust reprojection error
-    #reprojection_error_1 = gmof(projected_joints_0 - joints_2d[:int(batch_size/4)], sigma)
-    #reprojection_error_2 = gmof(projected_joints_1 - joints_2d[int(batch_size/4):int(batch_size/2)], sigma)
-    #reprojection_error_3 = gmof(projected_joints_2 - joints_2d[int(batch_size/2):int(batch_size*3/4)], sigma)
-    #reprojection_error_4 = gmof(projected_joints_3 - joints_2d[int(batch_size*3/4):], sigma)
-    
-    #reprojection_loss = (joints_conf[:int(batch_size/4)] ** 2) * reprojection_error_1.sum(dim=-1) +\
-    #                    (joints_conf[int(batch_size/4):int(batch_size/2)] ** 2) * reprojection_error_2.sum(dim=-1) +\
-    #                    (joints_conf[int(batch_size/2):int(batch_size*3/4)] ** 2) * reprojection_error_3.sum(dim=-1) +\
-    #                    (joints_conf[int(batch_size*3/4):] ** 2) * reprojection_error_4.sum(dim=-1)
     # Pose prior loss
     pose_prior_loss = (pose_prior_weight ** 2) * pose_prior(body_pose, betas)
 
@@ -79,7 +49,6 @@ def body_fitting_loss(body_pose, betas, model_joints, camera_t,camera_center,
 
     # Regularizer to prevent betas from taking large values
     shape_prior_loss = (shape_prior_weight ** 2) * (betas ** 2).sum(dim=-1)
-    #print(reprojection_loss.size(),pose_prior_loss.size(),angle_prior_loss.size(),shape_prior_loss.size())
     total_loss = reprojection_loss.sum(dim=-1) + pose_prior_loss + angle_prior_loss + shape_prior_loss
 
     if output == 'sum':
