@@ -22,5 +22,7 @@ python3 eval.py --checkpoint=data/model_checkpoint.pt --dataset=h36m-p1 --log_fr
 If you want to test MPI-INF-3DHP, you need to set ```--dataset``` as ```mpi-inf-3dhp```. 
 ## Visulization
 If you save the testing results, you can use to visuliza the results of testing data by using the code:
-
+```
+python3 show_test_results.py
+```
 But you need to install [OpenDr](https://github.com/mattloper/opendr/wiki) to visulize the results.
