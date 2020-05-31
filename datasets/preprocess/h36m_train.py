@@ -20,7 +20,7 @@ def h36m_train_extract(dataset_path, openpose_path, out_path, extract_img=False)
     imgnames_, scales_, centers_, parts_, Ss_, openposes_  = [], [], [], [], [], []
 
     # users in validation set
-    user_list = [8]
+    user_list = [1,5,6,7,8]
 
     # go over each user
     for user_i in user_list:
@@ -150,8 +150,7 @@ def h36m_train_extract(dataset_path, openpose_path, out_path, extract_img=False)
 #                       part=parts_,
 #                       S=Ss_,
 #                       openpose=openposes_)
-dataset_path = "/media/li/Seagate Expansion Drive/dataset/human36m"
-#dataset_path = "/usr/vision/data/Human36m"
-out_path = "/media/li/Seagate Expansion Drive/dataset/human36m"
+dataset_path = "../dataset/human36m"
+out_path = "../dataset/human36m"
 openpose_path = "/path/openpose"
 h36m_train_extract(dataset_path, openpose_path, out_path, extract_img=True)
